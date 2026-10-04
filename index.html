@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>傷病紀錄系統</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ===== 登入頁 ===== -->
+  <div id="login-view" class="login-view hidden">
+    <div class="login-card">
+      <h1>傷病紀錄系統</h1>
+      <p class="subtitle">請登入以繼續</p>
+      <form id="login-form" autocomplete="on">
+        <label>電子郵件
+          <input type="email" id="login-email" placeholder="you@example.com" required>
+        </label>
+        <label>密碼
+          <input type="password" id="login-password" placeholder="請輸入密碼" required>
+        </label>
+        <p id="login-error" class="error hidden"></p>
+        <button type="submit" class="btn btn-primary btn-block" id="login-btn">登入</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== 主程式 ===== -->
+  <div id="app-view" class="app-view hidden">
+    <header class="app-header">
+      <div class="app-title">傷病紀錄系統</div>
+      <div class="app-user">
+        <span id="user-email"></span>
+        <button id="logout-btn" class="btn btn-ghost">登出</button>
+      </div>
+    </header>
+
+    <nav class="tabs">
+      <button class="tab active" data-tab="add">新增</button>
+      <button class="tab" data-tab="search">檢索 / 查詢</button>
+      <button class="tab" data-tab="browse">瀏覽</button>
+      <button class="tab" data-tab="edit">刪除 / 修改</button>
+    </nav>
+
+    <main class="content">
+
+      <!-- ===== 1. 新增 ===== -->
+      <section id="tab-add" class="tab-panel">
+        <h2>新增紀錄</h2>
+        <form id="add-form" class="card form">
+          <label>姓名
+            <input type="text" id="add-name" placeholder="請輸入姓名" required>
+          </label>
+          <label>日期（民國年月日）
+            <input type="text" id="add-date" placeholder="例如：115年10月3日" required>
+            <span class="hint">格式：民國年＋月＋日，例如「115年10月3日」</span>
+          </label>
+          <label>原因
+            <input type="text" id="add-reason" placeholder="請自行輸入原因" required>
+          </label>
+          <label>目前就讀班級
+            <select id="add-class" required>
+              <option value="">請選擇</option>
+              <option value="BA">BA</option>
+              <option value="BB">BB</option>
+              <option value="BO A">BO A</option>
+              <option value="BO B">BO B</option>
+              <option value="WA A">WA A</option>
+              <option value="WA B">WA B</option>
+            </select>
+          </label>
+          <label>備註
+            <input type="text" id="add-note" placeholder="選填，可輸入備註">
+          </label>
+          <p id="add-error" class="error hidden"></p>
+          <button type="submit" class="btn btn-primary">送出新增</button>
+        </form>
+      </section>
+
+      <!-- ===== 2. 檢索 / 查詢 ===== -->
+      <section id="tab-search" class="tab-panel hidden">
+        <h2>檢索 / 查詢</h2>
+        <form id="search-form" class="card form">
+          <div class="form-grid">
+            <label>姓名
+              <input type="text" id="q-name" placeholder="部分姓名即可">
+            </label>
+            <label>原因
+              <input type="text" id="q-reason" placeholder="部分原因即可">
+            </label>
+            <label>班級
+              <select id="q-class">
+                <option value="">全部</option>
+                <option value="BA">BA</option>
+                <option value="BB">BB</option>
+                <option value="BO A">BO A</option>
+                <option value="BO B">BO B</option>
+                <option value="WA A">WA A</option>
+                <option value="WA B">WA B</option>
+              </select>
+            </label>
+            <label>備註
+              <input type="text" id="q-note" placeholder="部分備註即可">
+            </label>
+            <label>日期（起）
+              <input type="text" id="q-date-from" placeholder="例如：115年10月1日">
+            </label>
+            <label>日期（迄）
+              <input type="text" id="q-date-to" placeholder="例如：115年10月31日">
+            </label>
+          </div>
+          <p id="search-error" class="error hidden"></p>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary" id="search-btn">查詢</button>
+            <button type="button" class="btn btn-ghost" id="search-clear">清除</button>
+          </div>
+        </form>
+        <div id="search-result" class="hidden"></div>
+      </section>
+
+      <!-- ===== 3. 瀏覽 ===== -->
+      <section id="tab-browse" class="tab-panel hidden">
+        <h2>瀏覽全部紀錄</h2>
+        <div id="browse-result" class="card"></div>
+      </section>
+
+      <!-- ===== 4. 刪除 / 修改 ===== -->
+      <section id="tab-edit" class="tab-panel hidden">
+        <h2>刪除 / 修改</h2>
+        <form id="edit-search-form" class="card form">
+          <div class="form-grid">
+            <label>姓名
+              <input type="text" id="eq-name" placeholder="部分姓名即可">
+            </label>
+            <label>原因
+              <input type="text" id="eq-reason" placeholder="部分原因即可">
+            </label>
+            <label>班級
+              <select id="eq-class">
+                <option value="">全部</option>
+                <option value="BA">BA</option>
+                <option value="BB">BB</option>
+                <option value="BO A">BO A</option>
+                <option value="BO B">BO B</option>
+                <option value="WA A">WA A</option>
+                <option value="WA B">WA B</option>
+              </select>
+            </label>
+            <label>備註
+              <input type="text" id="eq-note" placeholder="部分備註即可">
+            </label>
+            <label>日期（起）
+              <input type="text" id="eq-date-from" placeholder="例如：115年10月1日">
+            </label>
+            <label>日期（迄）
+              <input type="text" id="eq-date-to" placeholder="例如：115年10月31日">
+            </label>
+          </div>
+          <p id="edit-search-error" class="error hidden"></p>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary" id="edit-search-btn">查詢</button>
+            <button type="button" class="btn btn-ghost" id="edit-search-clear">清除</button>
+          </div>
+        </form>
+        <div id="edit-result" class="hidden"></div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

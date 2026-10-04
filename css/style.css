@@ -1,0 +1,195 @@
+:root {
+  --bg: #f4f6f9;
+  --card: #ffffff;
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --danger: #dc2626;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --ok: #16a34a;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.hidden { display: none !important; }
+
+/* ---------- 登入頁 ---------- */
+.login-view {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.login-card {
+  background: var(--card);
+  padding: 40px 32px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 380px;
+}
+.login-card h1 { margin: 0 0 4px; font-size: 24px; text-align: center; }
+.subtitle { text-align: center; color: var(--muted); margin: 0 0 24px; }
+
+/* ---------- 主程式 ---------- */
+.app-header {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.app-title { font-size: 20px; font-weight: 700; }
+.app-user { display: flex; align-items: center; gap: 12px; color: var(--muted); font-size: 14px; }
+
+.tabs {
+  display: flex;
+  gap: 4px;
+  padding: 12px 24px 0;
+  flex-wrap: wrap;
+}
+.tab {
+  border: 1px solid var(--border);
+  border-bottom: none;
+  background: #eef1f5;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 15px;
+  border-radius: 8px 8px 0 0;
+  color: var(--muted);
+}
+.tab.active {
+  background: var(--card);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.content { padding: 20px 24px 40px; max-width: 960px; }
+.tab-panel h2 { margin-top: 0; }
+
+/* ---------- 表單 ---------- */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.form label {
+  display: block;
+  margin-bottom: 14px;
+  font-weight: 600;
+  font-size: 14px;
+}
+.form input, .form select {
+  width: 100%;
+  margin-top: 6px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 400;
+}
+.form input:focus, .form select:focus {
+  outline: 2px solid var(--primary);
+  border-color: transparent;
+}
+.hint { display: block; margin-top: 4px; font-size: 12px; color: var(--muted); font-weight: 400; }
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px 16px;
+}
+.form-grid label {
+  margin-bottom: 0;
+}
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.search-row { display: flex; gap: 10px; }
+.search-row input {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 15px;
+}
+.search-row select {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 15px;
+  background: #fff;
+}
+
+/* ---------- 按鈕 ---------- */
+.btn {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 15px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: var(--primary-hover); }
+.btn-block { width: 100%; }
+.btn-ghost { background: transparent; color: var(--primary); border: 1px solid var(--border); }
+.btn-danger { background: var(--danger); color: #fff; }
+.btn-sm { padding: 6px 12px; font-size: 13px; }
+
+/* ---------- 提示 ---------- */
+.error { color: var(--danger); background: #fef2f2; padding: 10px 12px; border-radius: 8px; font-size: 14px; }
+.ok { color: var(--ok); background: #f0fdf4; padding: 10px 12px; border-radius: 8px; font-size: 14px; }
+
+/* ---------- 表格 ---------- */
+table { width: 100%; border-collapse: collapse; background: var(--card); }
+th, td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  font-size: 14px;
+  vertical-align: top;
+}
+th { background: #f9fafb; font-size: 13px; color: var(--muted); }
+tr:hover td { background: #f9fafb; }
+.actions { white-space: nowrap; }
+.actions .btn { margin-right: 6px; }
+.empty { color: var(--muted); text-align: center; padding: 24px 0; }
+
+/* ---------- 編輯列 ---------- */
+.edit-row input, .edit-row select {
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 13px;
+}
+.inline-form label { display: block; margin-bottom: 10px; font-size: 13px; font-weight: 600; }
+.inline-form input, .inline-form select {
+  width: 100%; margin-top: 4px; padding: 8px 10px;
+  border: 1px solid var(--border); border-radius: 6px; font-size: 14px;
+}
+
+@media (max-width: 640px) {
+  .content { padding: 16px; }
+  .app-header { padding: 12px 16px; }
+  .tabs { padding: 12px 16px 0; }
+  .search-row { flex-direction: column; }
+  table { font-size: 12px; }
+  th, td { padding: 8px 6px; }
+}
