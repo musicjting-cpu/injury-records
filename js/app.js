@@ -57,15 +57,42 @@ function minguoToIso(dateStr) {
   return `${year}-${month}-${day}`;
 }
 
+/* ---------- 閒置自動登出（停滯 3 分鐘未操作） ---------- */
+const IDLE_MS = 3 * 60 * 1000;
+const IDLE_EVENTS = ['mousemove', 'mousedown', 'keydown', 'touchstart', 'scroll', 'click'];
+let lastActivity = Date.now();
+let idleCheckId = null;
+
+function markActivity() { lastActivity = Date.now(); }
+
+function startIdleWatcher() {
+  if (idleCheckId) return;
+  lastActivity = Date.now();
+  IDLE_EVENTS.forEach((ev) => window.addEventListener(ev, markActivity, { passive: true }));
+  idleCheckId = setInterval(() => {
+    if (currentUser && Date.now() - lastActivity >= IDLE_MS) {
+      stopIdleWatcher();
+      sb.auth.signOut().then(() => alert('已超過 3 分鐘未操作，已自動登出。'));
+    }
+  }, 5000);
+}
+
+function stopIdleWatcher() {
+  if (idleCheckId) { clearInterval(idleCheckId); idleCheckId = null; }
+  IDLE_EVENTS.forEach((ev) => window.removeEventListener(ev, markActivity));
+}
+
 /* ---------- 登入 / 登出 ---------- */
 function showLogin() {
   show($('#login-view'), true);
   show($('#app-view'), false);
+  stopIdleWatcher();
 }
 
 function showApp() {
   show($('#login-view'), false);
   show($('#app-view'), true);
+  startIdleWatcher();
 }
 
 async function init() {
