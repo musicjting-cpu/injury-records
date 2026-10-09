@@ -57,6 +57,24 @@ function minguoToIso(dateStr) {
   return `${year}-${month}-${day}`;
 }
 
+/* 依日期由舊到新排序（以民國日期換算；同日期以建立時間為次要） */
+function recordIso(r) {
+  return r.date_iso || minguoToIso(r.date_minguo) || '';
+}
+function sortByDateAsc(records) {
+  return records.slice().sort((a, b) => {
+    const ka = recordIso(a);
+    const kb = recordIso(b);
+    if (ka < kb) return -1;
+    if (ka > kb) return 1;
+    const ca = a.created_at || '';
+    const cb = b.created_at || '';
+    if (ca < cb) return -1;
+    if (ca > cb) return 1;
+    return 0;
+  });
+}
+
 /* ---------- 閒置自動登出（停滯 3 分鐘未操作） ---------- */
 const IDLE_MS = 3 * 60 * 1000;
 const IDLE_EVENTS = ['mousemove', 'mousedown', 'keydown', 'touchstart', 'scroll', 'click'];
@@ -263,6 +281,9 @@ async function runSearch(target) {
     });
   }
 
+  // 依日期由舊到新排序（僅呈現，不異動資料）
+  results = sortByDateAsc(results);
+
   if (!results || results.length === 0) {
     if (target === 'search' && isPureNameSearch(filters)) {
       switchTab('add');
@@ -329,7 +350,8 @@ async function loadBrowse() {
     el.innerHTML = '<p class="empty">目前尚無紀錄</p>';
     return;
   }
-  const rows = data.map((r) => `
+  const sorted = sortByDateAsc(data);
+  const rows = sorted.map((r) => `
     <tr>
       <td>${escapeHtml(r.name)}</td>
       <td>${escapeHtml(r.date_minguo)}</td>
